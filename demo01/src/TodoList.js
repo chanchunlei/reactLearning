@@ -1,6 +1,9 @@
 // TodoList.js
 import React, { Component, Fragment} from 'react';
+import PropTypes from 'prop-types' 
 import TodoItem from './TodoItem';
+import Test from './Test';
+import axios from 'axios'
 import './style.css';
 class TodoList extends Component {
 	constructor(props) {
@@ -13,6 +16,7 @@ class TodoList extends Component {
     this.handleBtnClick = this.handleBtnClick.bind(this);
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
 	}
+  //当组件的state或者props发生改变的时候，render函数就会重新执行
 	render() {
 		return (
 			<Fragment>
@@ -33,9 +37,15 @@ class TodoList extends Component {
       	<ul>
       	  { this.getTodoItem() }
     	  </ul>
+        <Test content={this.state.inputValue}/>
 			</Fragment>  	
 		)
 	}
+  componentDidMount(){
+    axios.get('./api/todolist')
+    .then(()=>{alert('success')})
+    .catch(()=>{alert('error')})
+  }
   getTodoItem(){
     return this.state.list.map((item,index)=>{
   		return (
@@ -85,5 +95,15 @@ class TodoList extends Component {
     // 	list
     // })
 	}
+}
+
+//引入proptypes校验给子组件传的值的属性
+//isRequired必须传递，不然会警告
+TodoItem.propTypes = {
+  test: PropTypes.string.isRequired,
+  //其中的一种
+  content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  deleteItem: PropTypes.func,
+  index: PropTypes.number
 }
 export default TodoList;
