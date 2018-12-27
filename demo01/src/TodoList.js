@@ -3,7 +3,7 @@ import React, { Component, Fragment} from 'react';
 import PropTypes from 'prop-types' 
 import TodoItem from './TodoItem';
 import Test from './Test';
-import axios from 'axios'
+import axios from 'axios';  //使用axios
 import './style.css';
 class TodoList extends Component {
 	constructor(props) {
@@ -42,9 +42,9 @@ class TodoList extends Component {
 		)
 	}
   componentDidMount(){
-    axios.get('./api/todolist')
-    .then(()=>{alert('success')})
-    .catch(()=>{alert('error')})
+    // axios.get('./api/todolist')
+    // .then(()=>{alert('success')})
+    // .catch(()=>{alert('error')})
   }
   getTodoItem(){
     return this.state.list.map((item,index)=>{
