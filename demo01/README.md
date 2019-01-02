@@ -510,6 +510,6 @@ componentDidMount(){//挂载前生命周期
 安装
 
 ```
-
+yarn add styled-components
 ```
 
