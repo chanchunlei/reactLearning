@@ -505,3 +505,11 @@ componentDidMount(){//挂载前生命周期
     }
 ```
 
+### 6 CSS模块styled-components
+
+安装
+
+```
+
+```
+
