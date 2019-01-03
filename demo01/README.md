@@ -348,6 +348,60 @@ export const getDeleteItemAction = (index) => ({
 // export const
 ```
 
+- #### redux进阶使用
+
+  - 在一个项目中数据会非常的繁杂，我们一般建议将数据存入store中，结合reducer、actionCreators、actionTypes来进行管理。如果项目足够大，不可能将所有数据都存入一个store中，所以我们按照组件对应的去创建store；主入口的store如同图书馆，有各个书库的reducer(图书馆管理员)进行管理，最后汇总到主入口的reducer去。
+
+  主reducer实例：
+
+  ```javascript
+  import { combineReducers } from 'redux';
+  import { reducer as headerReducer } from '../common/header/store';
+  const reducer = combineReducers({
+      header: headerReducer
+  });
+  export default reducer;
+  
+  ```
+
+  需要使用redux中的combineReducers这个模块。
+
+  - 全局使用
+
+  我们通过react-redux提供的顶层组件Provider传入store然后把要展示的ControlPanel写入顶层组件就行了，      Provider提供了整个全局的store供所有的子组件进行调用。
+
+  ```javascript
+  <Provider store = {store}>
+      <团长/>
+  <Provider>
+  ```
+
+
+
+  - connect ：连接数据处理组件和内部UI组件；
+
+    ```javascript
+    import { connect } from 'react-redux';
+    ...
+    const mapStateToProps = (state) => {
+        return {
+            focused: state.header.get('focused')
+        }
+    }
+    const mapDispatchToProps = (dispatch) => {
+        return {
+            handleInputFocus() {
+                dispatch(actionCreators.searchFocus());
+            },
+            handleInputBlur() {
+                dispatch(actionCreators.serchBlur());
+            }
+        }
+    }
+    export default connect(mapStateToProps,mapDispatchToProps)(Header);
+    ```
+
+
 ### 5 使用中间件
 
 #### redux-thunk
@@ -511,5 +565,13 @@ componentDidMount(){//挂载前生命周期
 
 ```
 yarn add styled-components
+```
+
+### 7 react中使用路由
+
+安装
+
+```
+yarn add react-router-dom
 ```
 
