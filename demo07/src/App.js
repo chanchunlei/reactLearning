@@ -7,6 +7,7 @@ import Home from './pages/home';//引入组件
 import Detail from './pages/detail';//同上
 import store from './store'
 import Header from './common/header';
+require('./mock/mock');//引入假数据
 class App extends Component {
   render() {
     return (

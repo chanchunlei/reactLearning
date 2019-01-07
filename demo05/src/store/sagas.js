@@ -6,6 +6,7 @@ import axios from "axios/index";
 function* getInitList() {
     try{//监听状态
         const res = yield axios.get('/data');
+        console.log(res);
         const action = initListAction(res.data.list);
         yield put(action);
     }catch (e) {
