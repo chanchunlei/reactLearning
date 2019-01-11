@@ -575,3 +575,24 @@ yarn add styled-components
 yarn add react-router-dom
 ```
 
+### 8 性能提升
+
+项目中组件繁多，当这个组件并没有数据刷新的时候就不运行这个组件中的render；这是就如下改
+
+```
+import React, { Component } from 'react';
+ 改成
+import React, { PureComponent } from 'react';
+ 同时下面那个使用Component的地方也改成PureComponent;
+```
+
+可以减少组件的比对来提升性能。
+
+### 9 组件懒加载(异步加载)
+
+安装react-loadable模块：
+
+```
+yarn add react-loadable
+```
+

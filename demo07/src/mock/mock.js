@@ -26,14 +26,22 @@ Mock.mock('/home',{
     ]
 })
 
-Mock.mock(RegExp('/more' + '.*'), {
-    'articleList|5': [
-        {
-            'id': '@increment',
-            'title': '@ctitle(5, 10)',
-            'desc': '@cparagraph(4)',
-            'imgUrl': '@image(\'125x100\', \'#894FC4\', \'#FFF\', \'png\', \'!\')'
-        }
-    ],
-
+Mock.mock(RegExp('/more' + ".*"), 'get',(options) => {
+    //console.log(options);
+    return {
+        'articleList|5': [
+            {
+                'id': '@increment',
+                'title': '@ctitle(5, 10)',
+                'desc': '@cparagraph(4)',
+                'imgUrl': '@image(\'125x100\', \'#894FC4\', \'#FFF\', \'png\', \'!\')'
+            }
+        ],
+    }
+})
+Mock.mock(RegExp('/login' + ".*"), 'get',(options) => {
+    //console.log(options);
+    return {
+        'status': true
+    }
 })

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Topic from './components/Topic';
 import List from './components/List';
@@ -12,10 +12,10 @@ import {
     BackTop
 } from './style';
 
-class Home extends Component {
+class Home extends PureComponent {
     handleScrollTop() {
         window.scrollTo(0,0);
-    }
+    };
     render() {
         return (
             <HomeWrapper>
@@ -31,21 +31,21 @@ class Home extends Component {
                 {this.props.showScroll ? <BackTop onClick={this.handleScrollTop}>顶部</BackTop> : null}
             </HomeWrapper>
         )
-    }
+    };
     componentDidMount() {
         this.props.changeHomeData();
         this.bindEvents();
-    }
+    };
     componentWillUnmount() {//销毁的时候去除方法
         window.removeEventListener('scroll',this.props.changeScrollTopShow);
-    }
+    };
     bindEvents() {
         window.addEventListener('scroll',this.props.changeScrollTopShow);
-    }
+    };
 }
 const mapStateToProps = (state) => ({
     showScroll: state.home.get('showScroll')
-})
+});
 const mapDispatchToProps = (dispatch) => ({
     changeHomeData() {
         dispatch(actionCreators.getHomeInfo());
@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch) => ({
         }else{
             dispatch(actionCreators.toggleTopShow(false));
         }
-        console.log(document.documentElement.scrollTop);
+        //console.log(document.documentElement.scrollTop);
     }
-})
+});
 export default connect(mapStateToProps,mapDispatchToProps)(Home);
