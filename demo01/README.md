@@ -74,6 +74,14 @@
 6. 生成新的虚拟DOM
 7. 比较原始虚拟DOM和新的虚拟DOM的区别，找到区别直接操作这个DOM改变其中的内容（极大的提升性能）
 
+#### 1.5 无状态组件与有状态组件
+
+**无状态组件：**无状态组件(Stateless Component)是最基础的组件形式，由于没有状态的影响所以就是纯静态展示的作用。一般来说，各种UI库里也是最开始会开发的组件类别。如按钮、标签、输入框等。它的基本组成结构就是属性（`props`）加上一个渲染函数（`render`）。由于不涉及到状态的更新，所以这种组件的复用性也最强。
+
+**有状态组件：**在无状态组件的基础上，如果组件内部包含状态（`state`）且状态随着事件或者外部的消息而发生改变的时候，这就构成了有状态组件（Stateful Component）。有状态组件通常会带有生命周期(lifecycle)，用以在不同的时刻触发状态的更新。这种组件也是通常在写业务逻辑中最经常使用到的，根据不同的业务场景组件的状态数量以及生命周期机制也不尽相同。
+
+而在React中，我们通常通过`props`和`state`来处理两种类型的数据。`props`是只读的，只能由父组件设置。`state`在组件内定义，在组件的生命周期中可以更改。基本上，无状态组件（也称为哑组件）使用`props`来存储数据，而有状态组件（也称为智能组件）使用`state`来存储数据。
+
 ### 2 生命周期
 
 #### 2.1 Initialization
@@ -574,6 +582,50 @@ yarn add styled-components
 ```
 yarn add react-router-dom
 ```
+
+#### HashRouter和BrowserRouter
+
+它们两个是路由的基本，就像盖房子必须有地基一样，我们需要将它们包裹在最外层，我们只要选择其一就可以了。现在讲它们的不同：
+
+##### HashRouter
+
+如果你使用过react-router2或3或者vue-router，你经常会发现一个现象就是url中会有个#，例如localhost:3000/#，HashRouter就会出现这种情况，它是通过hash值来对路由进行控制。如果你使用HashRouter，你的路由就会默认有这个#。
+
+##### BrowserRouter
+
+很多情况下我们则不是这种情况，我们不需要这个#，因为它看起来很怪，这时我们就需要用到BrowserRouter。它的原理是使用HTML5 history API (pushState, replaceState, popState)来使你的内容随着url动态改变的， 如果是个强迫症或者项目需要就选择BrowserRouter吧。下面我们将主要结合它来讲解。这里讲一个它们的基础api，basename。如果你的文件放在服务器的二级目录下则可以使用它。当你的主页前面是有一级目录calendar时，同样会显示主页的内容。它常常配合Link使用。
+
+#### Route
+
+Route是路由的一个原材料，它是控制路径对应显示的组件。我们经常用的是exact、path以及component属性。exact控制匹配到/路径时不会再继续向下匹配，path标识路由的路径，component表示路径对应显示的组件。后面我们将结合NavLink完成一个很基本的路由使用。同时我们可以设置例如/second/:id的方式来控制页面的显示，这需要配合Link或者NavLink配合使用。
+
+#### Link和NavLink的选择
+
+两者都是可以控制路由跳转的，不同点是NavLink的api更多，更加满足你的需求。Link主要api是to，to可以接受string或者一个object，来控制url。NavLink它可以为当前选中的路由设置类名、样式以及回调函数等。exact用于严格匹配，匹配到/则不会继续向下匹配，to则是控制跳转的路径，activeClassName是选中状态的类名，我们可以为其添加样式。
+
+#### match
+
+match是在使用router之后被放入props中的一个属性，在class创建的组件中我们需要通过this.props.match来获取match之中的信息。match中包含的信息如下。
+
+#### Switch
+
+Switch常常会用来包裹Route，它里面不能放其他元素，用来只显示一个路由。
+
+#### withRouter
+
+目的就是让被修饰的组件可以从属性中获取history,location,match；路由组件可以直接获取这些属性，而非路由组件就必须通过withRouter修饰后才能获取这些属性了。
+
+#### 小问题：
+
+路由中activeClassName不生效：activeClassName 无效是因为导航组件未被激活，也就是该组件的路由并未被刷新，很有可能题者公用导航，导航组件并未路由，写死固定在哪里。点击导航时，只是在切换body中的路由，导航组件未被更新，activeClassName是根据导航组件所在的路由去改变的。解决方法就是使用withRouter并确保是最外层：
+
+```
+import { Link, NavLink, withRouter } from 'react-router-dom';
+...
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Header));
+```
+
+此时即可获取到history,location,match属性了。
 
 ### 8 性能提升
 
